@@ -14,7 +14,8 @@ public class SistemaRestaurante {
             System.out.println("2. Remover prato do cardápio");
             System.out.println("3. Criar novo pedido");
             System.out.println("4. Visualizar pedidos");
-            System.out.println("5. Sair");
+            System.out.println("5. Remover prato do pedido");
+            System.out.println("6. Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
             scanner.nextLine();
@@ -85,7 +86,50 @@ public class SistemaRestaurante {
                     }
                     break;
 
-                case 5:
+                case 5: // Remover prato de um pedido
+                    System.out.print("Digite o número do pedido para remover um prato: ");
+                    int numPedido = scanner.nextInt();
+                    scanner.nextLine();
+
+                    Pedido pedidoSelecionado = null;
+                    for (Pedido p : pedidos) {
+                        if (p.numeroPedido == numPedido) {
+                            pedidoSelecionado = p;
+                            break;
+                        }
+                    }
+
+                    if (pedidoSelecionado == null) {
+                        System.out.println("Pedido não encontrado.");
+                        break;
+                    }
+
+                    System.out.println("Pratos no pedido:");
+                    for (Prato p : pedidoSelecionado.listaDePratos) {
+                        System.out.println("- " + p.nome);
+                    }
+
+                    System.out.print("Digite o nome do prato a remover: ");
+                    String nomeRemoverPedido = scanner.nextLine();
+
+                    Prato pratoParaRemover = null;
+                    for (Prato p : pedidoSelecionado.listaDePratos) {
+                        if (p.nome.equalsIgnoreCase(nomeRemoverPedido)) {
+                            pratoParaRemover = p;
+                            break;
+                        }
+                    }
+
+                    if (pratoParaRemover != null) {
+                        pedidoSelecionado.removerPrato(pratoParaRemover);
+                        System.out.println("Prato removido do pedido!");
+                    } else {
+                        System.out.println("Prato não encontrado no pedido.");
+                    }
+                    break;
+
+
+                case 6:
                     System.out.println("Saindo do sistema...");
                     scanner.close();
                     return;
